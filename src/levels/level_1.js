@@ -10,11 +10,11 @@ export default {
     'sand', 'sand', 'sand', 'forest', 'sand', 'mountains', 'mountains', 'mountains'
   ],
   incoming: [
-    { tile: 16, unit: 'MadCat', turn: 0, action: {} },
-    { tile: 37, unit: 'Tank', turn: 0, action: {} },
-    { tile: 38, unit: 'Tank', turn: 1, action: {} }
+    { tile: 21, type: 'MadCat', turn: 0, action: {} },
+    { tile: 37, type: 'Tank', turn: 0, action: {} },
+    { tile: 38, type: 'Tank', turn: 1, action: {} }
   ],
   enemy: [
-    { tile: 28, unit: 'Tank', action: { move: 1, attack: 1 } } // 0 - false, 1 - true
+    { tile: 28, type: 'Tank', action: { move: 1, attack: 1 } } // 0 - false, 1 - true
   ]
 }

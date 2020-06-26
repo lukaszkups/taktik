@@ -1,6 +1,13 @@
 <template>
-  <div class="home">
-    <level-map />
+  <div class="stage">
+    <div class="row">
+      <div class="col col--80">
+        <level-map />
+      </div>
+      <div class="col col--20">
+        {{ hoveredTile }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -8,9 +15,14 @@
 import LevelMap from '@/components/LevelMap'
 
 export default {
-  name: 'Home',
+  name: 'Stage',
   components: {
     LevelMap
+  },
+  computed: {
+    hoveredTile () {
+      return this.$state
+    }
   }
 }
 </script>

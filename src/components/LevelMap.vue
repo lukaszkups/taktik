@@ -4,6 +4,8 @@
       v-for="(tile, index) in currentLevel.grid"
       :tile="tile"
       :key="index"
+      :index="index"
+      :level="currentLevel"
     />
   </div>
 </template>
