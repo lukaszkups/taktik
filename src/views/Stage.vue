@@ -27,6 +27,9 @@
           </div>
         </div>
         <div
+          class="side-menu__item"
+        >Selected: {{ selectedUnit ? selectedUnit.type : 'none' }}</div>
+        <div
           class="side-menu__item next-turn__button"
           @click="nextTurn"
         >Next turn</div>
@@ -53,6 +56,9 @@ export default {
     actionMode () {
       return this.$store.state.actionMode
     },
+    selectedUnit () {
+      return this.$store.state.selectedUnit
+    },
     currentTurn () {
       return this.$store.state.turn
     }
@@ -67,13 +73,18 @@ export default {
     },
     updateGameState () {
       const dataCopy = { ...this.levelData }
+      // update incoming to ready enemy states
       dataCopy.incoming.map((obj, index) => {
-        if (this.currentTurn >= obj.turn) {
+        if (this.currentTurn > obj.turn) {
           dataCopy.enemy.push(obj)
           dataCopy.incoming.splice(index, 1)
         }
       })
+      // update grid
       this.$store.dispatch('updateProp', { name: 'levelData', value: dataCopy })
+      // reset selection
+      this.$store.dispatch('updateProp', { name: 'selectedUnit', value: null })
+      this.$forceUpdate()
     }
   }
 }

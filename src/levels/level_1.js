@@ -11,16 +11,16 @@ export default {
     'sand', 'sand', 'sand', 'forest', 'sand', 'mountains', 'mountains', 'mountains'
   ],
   incoming: [
-    { tile: 21, type: 'MadCat', turn: 0, action: {} },
-    { tile: 37, type: 'Tank', turn: 1, action: {} },
-    { tile: 46, type: 'Tank', turn: 0, action: {} },
-    { tile: 51, type: 'Rocketeer', turn: 3, action: {} }
+    { id: 2, tile: 21, type: 'MadCat', turn: 0, action: {}, destroyed: false },
+    { id: 3, tile: 37, type: 'Tank', turn: 1, action: {}, destroyed: false },
+    { id: 4, tile: 46, type: 'Tank', turn: 0, action: {}, destroyed: false },
+    { id: 5, tile: 51, type: 'Rocketeer', turn: 3, action: {}, destroyed: false }
   ],
   enemy: [
-    { tile: 28, type: 'Tank', action: { move: 1, attack: 1 } } // 0 - false, 1 - true
+    { id: 1, tile: 28, type: 'Tank', action: { move: 1, attack: 1 }, destroyed: false } // 0 - false, 1 - true
   ],
   player: [
-    { tile: 1, type: 'Rocketeer', action: {} },
-    { tile: 9, type: 'Rocketeer', action: {} }
+    { id: 1, tile: 2, type: 'Rocketeer', action: {}, destroyed: false, attackPattern: 'plus' }, // plus: +
+    { id: 2, tile: 9, type: 'Tank', action: {}, destroyed: false, attackPattern: 'short' } // both: - or |
   ]
 }

@@ -1,7 +1,10 @@
 <template>
   <div
     class="level-map__tile"
-    :class="`level-map__tile--${tile}`"
+    :class="[
+      `level-map__tile--${tile}`,
+      {'level-map__tile--attack-grid': attackGrid}
+    ]"
     @mouseover="onMouseOver"
   >
     <div
@@ -19,6 +22,7 @@
     <div
       v-if="player"
       class="level-map__unit--player"
+      @click="toggleSelectPlayer"
     >
       <div class="level-map__unit-name">{{ player.type }}</div>
     </div>
@@ -49,10 +53,13 @@ export default {
       return this.level.enemy.find(obj => obj.tile === this.index)
     },
     incoming () {
-      return this.level.incoming.find(obj => obj.tile === this.index && obj.turn <= this.turn)
+      return this.level.incoming.find(obj => obj.tile === this.index && obj.turn === this.turn)
     },
     player () {
       return this.level.player.find(obj => obj.tile === this.index)
+    },
+    attackGrid () {
+      return this.$store.state.attackGrid.includes(this.index)
     }
   },
   methods: {
@@ -64,6 +71,28 @@ export default {
         tile = `${this.tile} (teleport in progress)`
       }
       this.$store.dispatch('updateProp', { name: 'hoveredTile', value: tile })
+    },
+    toggleSelectPlayer () {
+      this.$store.dispatch('updateProp', { name: 'selectedUnit', value: this.player })
+      if (this.$store.state.actionMode === 'attack') {
+        // reset move grid
+        this.$store.dispatch('updateProp', { name: 'moveGrid', value: [] })
+        // update attack grid
+        const attackGrid = this.getAttackGrid(this.player)
+        this.$store.dispatch('updateProp', { name: 'attackGrid', value: attackGrid })
+      }
+    },
+    getAttackGrid (player) {
+      let grid = []
+      if (player.attackPattern === 'short') {
+        grid = [
+          player.tile - 8,
+          player.tile - 1,
+          player.tile + 1,
+          player.tile + 8
+        ]
+      }
+      return grid
     }
   }
 }
@@ -121,6 +150,8 @@ export default {
         animation-delay: 0.25s
     &--lava
       background-color: #8B0000
+    &--attack-grid
+      border: 1px solid crimson
 
   &__unit
     background: rgba(255, 150, 150, 0.9)
@@ -129,6 +160,9 @@ export default {
       cursor: pointer
     &:hover
       background: rgba(255, 0, 0, 0.65)
+
+  &__unit--player
+    background: rgba(150, 250, 150, 0.9)
 
   &__incoming
     background: silver

@@ -11,7 +11,10 @@ export default new Vuex.Store({
     levelData: null,
     levels: levels,
     actionMode: 'move',
-    turn: 0
+    turn: 0,
+    selectedUnit: null,
+    moveGrid: [], // available moves of selected unit
+    attackGrid: [] // available attack pattern of selected unit
   },
   mutations: {
     updateProp (state, payload) {
