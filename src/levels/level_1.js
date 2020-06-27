@@ -20,7 +20,7 @@ export default {
     { id: 1, tile: 28, type: 'Tank', action: { move: 1, attack: 1 }, destroyed: false } // 0 - false, 1 - true
   ],
   player: [
-    { id: 1, tile: 2, type: 'Rocketeer', action: {}, destroyed: false, attackPattern: 'plus' }, // plus: +
-    { id: 2, tile: 9, type: 'Tank', action: {}, destroyed: false, attackPattern: 'short' } // both: - or |
+    { id: 1, tile: 2, type: 'Rocketeer', action: {}, destroyed: false, attackPattern: 'rook' },
+    { id: 2, tile: 9, type: 'Tank', action: {}, destroyed: false, attackPattern: 'short' }
   ]
 }

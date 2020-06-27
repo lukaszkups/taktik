@@ -91,6 +91,22 @@ export default {
           player.tile + 1,
           player.tile + 8
         ]
+      } else if (player.attackPattern === 'rook') {
+        const column = player.tile % 8
+        const rowStart = player.tile - column
+        // horizontal line
+        for (let i = rowStart; i < rowStart + 8; i++) {
+          if (i !== player.tile) {
+            grid.push(i)
+          }
+        }
+        // vertical line
+        for (let j = 0; j < 8; j++) {
+          const value = (j * 8) + column
+          if (value !== player.tile) {
+            grid.push(value)
+          }
+        }
       }
       return grid
     }
