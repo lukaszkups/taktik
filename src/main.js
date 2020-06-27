@@ -6,11 +6,6 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$state = {
-  currentLevel: null,
-  hoveredTile: ''
-}
-
 new Vue({
   router,
   store,

@@ -16,6 +16,12 @@
     >
       Incoming
     </div>
+    <div
+      v-if="player"
+      class="level-map__unit--player"
+    >
+      <div class="level-map__unit-name">{{ player.type }}</div>
+    </div>
   </div>
 </template>
 <script>
@@ -36,26 +42,54 @@ export default {
     }
   },
   computed: {
+    turn () {
+      return this.$store.state.turn
+    },
     enemy () {
       return this.level.enemy.find(obj => obj.tile === this.index)
     },
     incoming () {
-      return this.level.incoming.find(obj => obj.tile === this.index)
+      return this.level.incoming.find(obj => obj.tile === this.index && obj.turn <= this.turn)
+    },
+    player () {
+      return this.level.player.find(obj => obj.tile === this.index)
     }
   },
   methods: {
     onMouseOver () {
-      console.log(this.enemy)
-      this.$state.hoveredTile = this.enemy ? this.enemy.type : ''
+      let tile = this.tile
+      if (this.enemy) {
+        tile = `${this.enemy.type} (on ${this.tile} tile)`
+      } else if (this.incoming) {
+        tile = `${this.tile} (teleport in progress)`
+      }
+      this.$store.dispatch('updateProp', { name: 'hoveredTile', value: tile })
     }
   }
 }
 </script>
 <style lang="sass">
+@keyframes teleportPulse
+  0%
+    opacity: 0.5
+  50%
+    opacity: 1
+  100%
+    opacity: 0.5
+
+@keyframes waterPulse
+  0%
+    background: #00BFFF
+  50%
+    background: darken(#00BFFF, 5%)
+  100%
+    background: brighten(#00BFFF, 5%)
+
 .level-map
   &__tile,
   &__unit,
-  &__incoming
+  &__incoming,
+  &__unit--player
     background: transparent
     box-sizing: border-box
     flex: 1
@@ -80,10 +114,16 @@ export default {
       background-color: #696969
     &--water
       background-color: #00BFFF
+      animation: waterPulse 5s infinite
+      &:nth-of-type(2n)
+        animation-delay: 0.5s
+      &:nth-of-type(3n)
+        animation-delay: 0.25s
     &--lava
       background-color: #8B0000
 
   &__unit
+    background: rgba(255, 150, 150, 0.9)
     &-name
       line-height: 100px
       cursor: pointer
@@ -94,4 +134,5 @@ export default {
     background: silver
     line-height: 100px
     cursor: not-allowed
+    animation: teleportPulse 1s infinite
 </style>
